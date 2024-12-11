@@ -13,10 +13,35 @@
         canvas {
             display: block;
         }
+        .controls {
+            position: fixed;
+            bottom: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 10px;
+        }
+        .control-button {
+            width: 50px;
+            height: 50px;
+            background: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 18px;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
     </style>
 </head>
 <body>
     <canvas id="gameCanvas"></canvas>
+    <div class="controls">
+        <button class="control-button" id="leftButton">⬅️</button>
+        <button class="control-button" id="fireButton">🔥</button>
+        <button class="control-button" id="rightButton">➡️</button>
+    </div>
 
     <script>
         const canvas = document.getElementById("gameCanvas");
@@ -181,6 +206,19 @@
                 spaceship.dx = 0;
             }
         }
+
+        // Touch controls for iPads
+        const leftButton = document.getElementById("leftButton");
+        const rightButton = document.getElementById("rightButton");
+        const fireButton = document.getElementById("fireButton");
+
+        leftButton.addEventListener("touchstart", () => (spaceship.dx = -spaceship.speed));
+        leftButton.addEventListener("touchend", () => (spaceship.dx = 0));
+
+        rightButton.addEventListener("touchstart", () => (spaceship.dx = spaceship.speed));
+        rightButton.addEventListener("touchend", () => (spaceship.dx = 0));
+
+        fireButton.addEventListener("touchstart", createBullet);
 
         document.addEventListener("keydown", keyDown);
         document.addEventListener("keyup", keyUp);
